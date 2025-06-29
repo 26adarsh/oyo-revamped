@@ -1,0 +1,54 @@
+{% extends "utils/vendor_base.html" %}
+
+{% block start %}
+
+<style>
+    /* Ensure page takes full height and footer stays at bottom */
+    body, html {
+        height: 100%;
+        margin: 0;
+    }
+
+    .page-container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content-wrap {
+        flex: 1;
+    }
+</style>
+
+<div class="page-container">
+    <div class="content-wrap">
+
+        <div class="container mt-5">
+            <div class="mx-auto col-6 text-center mb-4">
+                <a href="{% url 'add_hotel'%}" class="btn btn-success"> Add Hotels</a>
+            </div>
+            <div class="row">
+                {% for hotel in hotels %}
+                    <div class="col-md-3 mb-4">
+                        <div class="card shadow" style="width: 18rem;">
+                            <img src="/media/{{hotel.hotel_images.first.image}}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ hotel.hotel_name }}</h5>
+                                {% for amenetie in hotel.ameneties.all %}
+                                    <span class="badge text-bg-primary">{{ amenetie.name }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="p-2 d-flex justify-content-between">
+                                <a href="{% url 'upload_images' hotel.hotel_slug %}" class="btn btn-success btn-sm">Image</a>
+                                <a href="{% url 'edit_hotel' hotel.hotel_slug %}" class="btn btn-warning btn-sm">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
